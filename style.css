@@ -666,3 +666,26 @@ body{
     0 28px 75px rgba(0,0,0,.30),
     0 0 55px rgba(105,230,255,.07);
 }
+
+/* Fix MB-230 credential link position */
+.cert-feature{
+  display:flex;
+  flex-direction:column;
+}
+
+.cert-link{
+  position:static !important;
+  margin-top:auto;
+  padding-top:24px;
+  left:auto !important;
+  bottom:auto !important;
+
+  color:#d2dbe7;
+  font-size:11.5px;
+  font-weight:600;
+}
+
+.cert-link span{
+  margin-left:7px;
+  color:var(--cyan);
+}
