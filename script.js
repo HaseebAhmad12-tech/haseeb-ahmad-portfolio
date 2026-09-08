@@ -1,0 +1,261 @@
+// Public profile links. Empty values are automatically hidden.
+const PROFILE = {
+  email: "",
+  linkedin: "https://www.linkedin.com/in/haseeb-ahmad-baa981278",
+  github: ""
+};
+
+const header = document.querySelector('.site-header');
+const menuToggle = document.querySelector('.menu-toggle');
+const nav = document.querySelector('.site-nav');
+const progress = document.querySelector('.scroll-progress span');
+const glow = document.querySelector('.cursor-glow');
+const navLinks = [...document.querySelectorAll('.site-nav a[href^="#"]')];
+
+if (menuToggle && nav) {
+  menuToggle.addEventListener('click', () => {
+    const open = menuToggle.getAttribute('aria-expanded') === 'true';
+    menuToggle.setAttribute('aria-expanded', String(!open));
+    nav.classList.toggle('open', !open);
+    document.body.classList.toggle('menu-open', !open);
+  });
+
+  nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+    menuToggle.setAttribute('aria-expanded', 'false');
+    nav.classList.remove('open');
+    document.body.classList.remove('menu-open');
+  }));
+}
+
+const onScroll = () => {
+  const y = window.scrollY;
+  header?.classList.toggle('scrolled', y > 18);
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  if (progress) progress.style.width = `${max > 0 ? (y / max) * 100 : 0}%`;
+};
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+if (glow && window.matchMedia('(pointer:fine)').matches) {
+  window.addEventListener('pointermove', e => {
+    glow.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 700, fill: 'forwards' });
+  }, { passive: true });
+}
+
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -35px' });
+
+document.querySelectorAll('.reveal').forEach((el, index) => {
+  el.style.transitionDelay = `${Math.min(index % 4, 3) * 70}ms`;
+  revealObserver.observe(el);
+});
+
+const sections = [...document.querySelectorAll('main section[id]')];
+const sectionObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`));
+  });
+}, { rootMargin: '-35% 0px -58% 0px', threshold: 0 });
+sections.forEach(section => sectionObserver.observe(section));
+
+const setProfileLink = (selector, value, prefix = '') => {
+  const el = document.querySelector(selector);
+  if (!el || !value) return;
+  el.href = `${prefix}${value}`;
+  el.hidden = false;
+};
+setProfileLink('.profile-email', PROFILE.email, 'mailto:');
+setProfileLink('.profile-linkedin', PROFILE.linkedin);
+setProfileLink('.profile-github', PROFILE.github);
+
+/* ---------------- Blog carousel + live profile sync ---------------- */
+const blogTrack = document.getElementById('blogTrack');
+const blogPrev = document.querySelector('.blog-prev');
+const blogNext = document.querySelector('.blog-next');
+const blogPagination = document.getElementById('blogPagination');
+const blogCount = document.getElementById('blogCount');
+const blogSyncStatus = document.getElementById('blogSyncStatus');
+let blogPosition = 0;
+
+const normaliseBlogUrl = value => {
+  try {
+    const url = new URL(value, 'https://community.powerplatform.com');
+    url.hash = '';
+    return `${url.origin}${url.pathname}${url.search}`;
+  } catch {
+    return value;
+  }
+};
+
+const topicFromTitle = title => {
+  const t = title.toLowerCase();
+  if (t.includes('copilot') || t.includes('agent')) return 'COPILOT STUDIO · AUTOMATION';
+  if (t.includes('access') || t.includes('security')) return 'DYNAMICS 365 · SECURITY';
+  if (t.includes('case') || t.includes('power automate')) return 'POWER AUTOMATE · DYNAMICS 365';
+  if (t.includes('rest') || t.includes('api')) return 'DATAVERSE · WEB API';
+  if (t.includes('grid')) return 'POWER APPS · MODEL-DRIVEN';
+  if (t.includes('subgrid') || t.includes('ribbon')) return 'RIBBON WORKBENCH · XRMTOOLBOX';
+  if (t.includes('lookup')) return 'DATAVERSE · XRMTOOLBOX';
+  if (t.includes('deleted') || t.includes('recycle')) return 'DATAVERSE · DATA RECOVERY';
+  return 'MICROSOFT POWER PLATFORM';
+};
+
+const excerptFromTitle = title => {
+  const t = title.toLowerCase();
+  if (t.includes('copilot') || t.includes('agent')) return 'A practical Power Platform walkthrough connecting AI agents, automation and business data.';
+  if (t.includes('access')) return 'A practical Dynamics 365 guide focused on record access, permissions and faster troubleshooting.';
+  if (t.includes('case')) return 'A hands-on automation pattern for Dynamics 365 case processing with Power Automate.';
+  if (t.includes('rest') || t.includes('api')) return 'A hands-on integration guide for building and using Dataverse API requests.';
+  if (t.includes('grid')) return 'A practical model-driven app guide for improving day-to-day data entry and productivity.';
+  if (t.includes('subgrid') || t.includes('ribbon')) return 'A Dynamics 365 customization guide using XrmToolBox and Ribbon Workbench.';
+  if (t.includes('lookup')) return 'A Dataverse relationship guide for flexible lookup behavior in model-driven applications.';
+  if (t.includes('deleted') || t.includes('recycle')) return 'A data recovery walkthrough for restoring Dataverse records with XrmToolBox.';
+  return 'A practical Microsoft Power Platform article with implementation notes, patterns and lessons learned.';
+};
+
+const createBlogCard = (post, index, existingCards) => {
+  const key = normaliseBlogUrl(post.url);
+  const existing = existingCards.get(key);
+  if (existing) {
+    existing.querySelector('.blog-card-top span').textContent = String(index + 1).padStart(2, '0');
+    return existing;
+  }
+
+  const article = document.createElement('article');
+  article.className = 'blog-card';
+  article.dataset.blogUrl = key;
+
+  const top = document.createElement('div');
+  top.className = 'blog-card-top';
+  const number = document.createElement('span');
+  number.textContent = String(index + 1).padStart(2, '0');
+  const topic = document.createElement('small');
+  topic.textContent = topicFromTitle(post.title);
+  top.append(number, topic);
+
+  const heading = document.createElement('h3');
+  heading.textContent = post.title;
+  const excerpt = document.createElement('p');
+  excerpt.textContent = excerptFromTitle(post.title);
+  const link = document.createElement('a');
+  link.href = key;
+  link.target = '_blank';
+  link.rel = 'noopener';
+  link.innerHTML = 'Read article <span>↗</span>';
+
+  article.append(top, heading, excerpt, link);
+  return article;
+};
+
+const visibleBlogCards = () => {
+  if (window.innerWidth <= 620) return 1;
+  if (window.innerWidth <= 1120) return 2;
+  return 3;
+};
+
+const renderBlogCarousel = () => {
+  if (!blogTrack) return;
+  const cards = [...blogTrack.children];
+  const visible = visibleBlogCards();
+  const maxPosition = Math.max(0, cards.length - visible);
+  blogPosition = Math.min(blogPosition, maxPosition);
+
+  const first = cards[0];
+  if (first) {
+    const gap = parseFloat(getComputedStyle(blogTrack).columnGap || getComputedStyle(blogTrack).gap || '12');
+    const step = first.getBoundingClientRect().width + gap;
+    blogTrack.style.transform = `translateX(${-blogPosition * step}px)`;
+  }
+
+  if (blogPrev) blogPrev.disabled = blogPosition <= 0;
+  if (blogNext) blogNext.disabled = blogPosition >= maxPosition;
+
+  if (blogPagination) {
+    blogPagination.replaceChildren();
+    for (let i = 0; i <= maxPosition; i += 1) {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = `blog-dot${i === blogPosition ? ' active' : ''}`;
+      dot.setAttribute('aria-label', `Show blog position ${i + 1}`);
+      dot.addEventListener('click', () => {
+        blogPosition = i;
+        renderBlogCarousel();
+      });
+      blogPagination.appendChild(dot);
+    }
+  }
+};
+
+blogPrev?.addEventListener('click', () => {
+  blogPosition = Math.max(0, blogPosition - 1);
+  renderBlogCarousel();
+});
+blogNext?.addEventListener('click', () => {
+  const cards = blogTrack ? blogTrack.children.length : 0;
+  const max = Math.max(0, cards - visibleBlogCards());
+  blogPosition = Math.min(max, blogPosition + 1);
+  renderBlogCarousel();
+});
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(renderBlogCarousel, 120);
+}, { passive: true });
+
+const syncCommunityBlogs = async () => {
+  if (!blogTrack) return;
+  renderBlogCarousel();
+
+  try {
+    const response = await fetch('/.netlify/functions/blogs', { headers: { Accept: 'application/json' } });
+    if (!response.ok) throw new Error(`Blog sync returned ${response.status}`);
+    const data = await response.json();
+    if (!Array.isArray(data.posts) || !data.posts.length) throw new Error('No public blog posts returned');
+
+    const currentCards = new Map(
+      [...blogTrack.querySelectorAll('.blog-card')].map(card => [normaliseBlogUrl(card.dataset.blogUrl), card])
+    );
+    const fragment = document.createDocumentFragment();
+    const seen = new Set();
+
+    data.posts.forEach(post => {
+      if (!post?.url || !post?.title) return;
+      const key = normaliseBlogUrl(post.url);
+      if (seen.has(key)) return;
+      seen.add(key);
+      fragment.appendChild(createBlogCard({ ...post, url: key }, seen.size - 1, currentCards));
+    });
+
+    // Keep any verified fallback cards if the community page temporarily returns a partial list.
+    currentCards.forEach((card, key) => {
+      if (seen.has(key)) return;
+      card.querySelector('.blog-card-top span').textContent = String(seen.size + 1).padStart(2, '0');
+      seen.add(key);
+      fragment.appendChild(card);
+    });
+
+    blogTrack.replaceChildren(fragment);
+    if (blogCount) blogCount.textContent = String(blogTrack.children.length);
+    if (blogSyncStatus) blogSyncStatus.textContent = 'Synced from my public Power Platform Community profile. New public posts are picked up automatically.';
+    blogPosition = 0;
+    renderBlogCarousel();
+  } catch (error) {
+    if (blogCount) blogCount.textContent = String(blogTrack.children.length);
+    if (blogSyncStatus) blogSyncStatus.textContent = 'Showing saved public posts. Live sync will refresh automatically when deployed on Netlify.';
+    renderBlogCarousel();
+    console.info('Community blog sync fallback:', error.message);
+  }
+};
+
+syncCommunityBlogs();
+
+const year = document.getElementById('year');
+if (year) year.textContent = new Date().getFullYear();
