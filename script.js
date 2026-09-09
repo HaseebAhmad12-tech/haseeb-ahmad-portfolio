@@ -349,3 +349,95 @@ loadVisitorCount();
 
 const year = document.getElementById('year');
 if (year) year.textContent = new Date().getFullYear();
+
+/* =========================================
+   NETLIFY CONTACT FORM
+   ========================================= */
+
+const contactForm = document.getElementById('contactForm');
+const contactSubmit = document.getElementById('contactSubmit');
+const formStatus = document.getElementById('formStatus');
+
+if (contactForm) {
+
+  contactForm.addEventListener('submit', async (event) => {
+
+    event.preventDefault();
+
+    const submitText =
+      contactSubmit?.querySelector('.submit-text');
+
+    if (contactSubmit) {
+      contactSubmit.disabled = true;
+    }
+
+    if (submitText) {
+      submitText.textContent = 'Sending...';
+    }
+
+    if (formStatus) {
+      formStatus.textContent = '';
+      formStatus.className = 'form-status';
+    }
+
+    try {
+
+      const formData = new FormData(contactForm);
+
+      const response = await fetch('/', {
+        method: 'POST',
+
+        headers: {
+          'Content-Type':
+            'application/x-www-form-urlencoded'
+        },
+
+        body:
+          new URLSearchParams(formData).toString()
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Form returned ${response.status}`
+        );
+      }
+
+      contactForm.reset();
+
+      if (formStatus) {
+        formStatus.textContent =
+          '✓ Message sent successfully. Thank you!';
+        formStatus.className =
+          'form-status success';
+      }
+
+    } catch (error) {
+
+      if (formStatus) {
+        formStatus.textContent =
+          'Unable to send the message. Please try again.';
+        formStatus.className =
+          'form-status error';
+      }
+
+      console.error(
+        'Contact form error:',
+        error
+      );
+
+    } finally {
+
+      if (contactSubmit) {
+        contactSubmit.disabled = false;
+      }
+
+      if (submitText) {
+        submitText.textContent =
+          'Send message';
+      }
+
+    }
+
+  });
+
+}
