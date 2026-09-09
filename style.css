@@ -689,3 +689,13 @@ body{
   margin-left:7px;
   color:var(--cyan);
 }
+
+.hero-metrics{
+    max-width:780px;
+    flex-wrap:wrap;
+}
+
+.visitor-metric strong{
+    min-width:58px;
+    font-variant-numeric:tabular-nums;
+}
