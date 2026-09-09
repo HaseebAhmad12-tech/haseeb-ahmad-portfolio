@@ -51,7 +51,7 @@ exports.handler = async () => {
     const response = await fetch(PROFILE_URL, {
       headers: {
         'Accept': 'text/html,application/xhtml+xml',
-        'User-Agent': 'Mozilla/5.0 (compatible; HaseebAhmadPortfolio/1.0; +https://haseebahmadcrm.netlify.app/)'
+        'User-Agent': 'Mozilla/5.0 (compatible; HaseebAhmadPortfolio/1.0; +https://haseebahmad365.netlify.app/)'
       }
     });
 
