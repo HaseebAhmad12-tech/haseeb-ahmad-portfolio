@@ -559,7 +559,136 @@ body{
   margin-left:7px;
   color:var(--cyan);
 }
+/*Site Glory*/
+/* =========================================================
+   GLOBAL PREMIUM GLOW - FULL WEBSITE
+   Add this at the END of style.css
+   ========================================================= */
 
+body{
+  position: relative;
+  background:
+    radial-gradient(circle at 8% 8%,
+      rgba(105,230,255,.18),
+      transparent 25%
+    ),
+    radial-gradient(circle at 88% 16%,
+      rgba(123,156,255,.18),
+      transparent 27%
+    ),
+    radial-gradient(circle at 18% 42%,
+      rgba(105,230,255,.11),
+      transparent 24%
+    ),
+    radial-gradient(circle at 82% 54%,
+      rgba(156,124,255,.11),
+      transparent 25%
+    ),
+    radial-gradient(circle at 20% 78%,
+      rgba(123,156,255,.10),
+      transparent 25%
+    ),
+    radial-gradient(circle at 85% 88%,
+      rgba(105,230,255,.09),
+      transparent 24%
+    ),
+    linear-gradient(
+      180deg,
+      #030712 0%,
+      #07101d 35%,
+      #050b17 65%,
+      #030812 100%
+    );
+  background-attachment: fixed;
+}
+
+
+/* Every main section gets its own soft glow */
+.section{
+  position: relative;
+  isolation: isolate;
+}
+
+.section::before{
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+
+  width: 650px;
+  height: 650px;
+
+  left: -280px;
+  top: 5%;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(105,230,255,.09) 0%,
+      rgba(105,230,255,.035) 38%,
+      transparent 70%
+    );
+
+  filter: blur(20px);
+}
+
+
+/* Alternate glow on every second section */
+.section:nth-of-type(even)::before{
+  left: auto;
+  right: -280px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(123,156,255,.10) 0%,
+      rgba(156,124,255,.04) 40%,
+      transparent 70%
+    );
+}
+
+
+/* Extra subtle middle glow */
+.section::after{
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(118,236,255,.13),
+      rgba(134,166,255,.08),
+      transparent
+    );
+}
+
+
+/* Cards slightly glow with the new background */
+.expertise-card,
+.experience-card,
+.project-card,
+.cert-feature,
+.cert-card,
+.blog-card,
+.contact-panel,
+.portrait-card{
+  box-shadow:
+    0 24px 70px rgba(0,0,0,.24),
+    0 0 45px rgba(105,230,255,.025);
+}
+
+
+/* Cyan glow when hovering cards */
+.expertise-card:hover,
+.project-card:hover,
+.cert-card:hover,
+.blog-card:hover{
+  border-color: rgba(118,236,255,.24);
+
+  box-shadow:
+    0 28px 75px rgba(0,0,0,.30),
+    0 0 55px rgba(105,230,255,.07);
+}
 /* Visitor counter */
 .hero-metrics{
   max-width:780px;
