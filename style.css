@@ -537,7 +537,28 @@ body{
   .portrait-card{width:min(100%,320px);padding:12px;border-radius:24px}
   .portrait-badge{left:18px;right:18px;bottom:18px;font-size:10px}
 }
+/* Fix MB-230 credential link position */
+.cert-feature{
+  display:flex;
+  flex-direction:column;
+}
 
+.cert-link{
+  position:static !important;
+  margin-top:auto;
+  padding-top:24px;
+  left:auto !important;
+  bottom:auto !important;
+
+  color:#d2dbe7;
+  font-size:11.5px;
+  font-weight:600;
+}
+
+.cert-link span{
+  margin-left:7px;
+  color:var(--cyan);
+}
 
 /* Visitor counter */
 .hero-metrics{
