@@ -306,6 +306,47 @@ const syncCommunityBlogs = async () => {
 };
 
 syncCommunityBlogs();
+const visitorCountEl = document.getElementById('visitorCount');
 
+const loadVisitorCount = async () => {
+  if (!visitorCountEl) return;
+
+  const storageKey = 'haseeb-portfolio-counted-v1';
+  let shouldIncrement = false;
+
+  try {
+    shouldIncrement = !localStorage.getItem(storageKey);
+  } catch {
+    shouldIncrement = false;
+  }
+
+  try {
+    const response = await fetch('/.netlify/functions/visitor-count', {
+      method: shouldIncrement ? 'POST' : 'GET',
+      headers: { Accept: 'application/json' }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Counter returned ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    visitorCountEl.textContent =
+      Number(data.count || 0).toLocaleString();
+
+    if (shouldIncrement) {
+      try {
+        localStorage.setItem(storageKey, '1');
+      } catch {}
+    }
+
+  } catch (error) {
+    visitorCountEl.textContent = '—';
+    console.info('Visitor counter unavailable:', error.message);
+  }
+};
+
+loadVisitorCount();
 const year = document.getElementById('year');
 if (year) year.textContent = new Date().getFullYear();
