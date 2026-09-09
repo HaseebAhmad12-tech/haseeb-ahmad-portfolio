@@ -380,19 +380,193 @@
     </section>
 
     <section class="section contact" id="contact">
-      <div class="contact-panel reveal">
-        <div class="contact-orb" aria-hidden="true"></div>
-        <div class="section-kicker"><span>07</span> Contact</div>
-        <h2>Have a CRM problem worth <em>solving well?</em></h2>
-        <p>I’m open to professional conversations, collaboration and opportunities around Dynamics 365, CRM engineering and Power Platform.</p>
-        <div class="contact-actions">
-          <a class="button button-primary profile-link profile-email" href="#" hidden>Email me <span>↗</span></a>
-          <a class="button button-secondary profile-link profile-linkedin" href="#" target="_blank" rel="noopener" hidden>LinkedIn <span>↗</span></a>
-          <a class="button button-secondary profile-link profile-github" href="#" target="_blank" rel="noopener" hidden>GitHub <span>↗</span></a>
-          <a class="button button-secondary" href="Haseeb_Ahmad_CV.pdf" download>Download résumé <span>↓</span></a>
+  <div class="section-kicker reveal">
+    <span>07</span> Contact
+  </div>
+
+  <div class="contact-grid reveal">
+
+    <!-- LEFT: CONTACT FORM -->
+    <div class="contact-form-card">
+      <span class="contact-label">LET'S WORK TOGETHER</span>
+
+      <h2>
+        Have a CRM problem worth
+        <em>solving well?</em>
+      </h2>
+
+      <p class="contact-intro">
+        Have a question, project or opportunity? Send me a message and
+        I'll get back to you.
+      </p>
+
+      <form
+        name="contact"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        id="contactForm"
+      >
+
+        <!-- Required for Netlify -->
+        <input type="hidden" name="form-name" value="contact">
+
+        <!-- Spam protection -->
+        <p hidden>
+          <label>
+            Don't fill this out:
+            <input name="bot-field">
+          </label>
+        </p>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label for="contactName">Your Name</label>
+            <input
+              type="text"
+              id="contactName"
+              name="name"
+              placeholder="Your name"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="contactEmail">Your Email</label>
+            <input
+              type="email"
+              id="contactEmail"
+              name="email"
+              placeholder="you@example.com"
+              required
+            >
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <label for="contactSubject">Subject</label>
+          <input
+            type="text"
+            id="contactSubject"
+            name="subject"
+            placeholder="Project / Opportunity / Question"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="contactMessage">Your Message</label>
+          <textarea
+            id="contactMessage"
+            name="message"
+            rows="6"
+            placeholder="Tell me a little about your project..."
+            required
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="button button-primary contact-submit"
+          id="contactSubmit"
+        >
+          <span class="submit-text">Send message</span>
+          <span class="submit-icon">↗</span>
+        </button>
+
+        <div
+          class="form-status"
+          id="formStatus"
+          aria-live="polite"
+        ></div>
+
+      </form>
+    </div>
+
+
+    <!-- RIGHT: CONTACT OPTIONS -->
+    <div class="contact-info-card">
+
+      <div class="contact-info-top">
+        <span class="contact-label">CONNECT</span>
+
+        <h3>Find me online.</h3>
+
+        <p>
+          Connect with me for Dynamics 365 CRM, Power Platform,
+          consulting and collaboration opportunities.
+        </p>
+      </div>
+
+      <div class="contact-links">
+
+        <a
+          class="contact-social profile-link profile-linkedin"
+          href="#"
+          target="_blank"
+          rel="noopener"
+          hidden
+        >
+          <div class="social-icon">in</div>
+
+          <div>
+            <small>LINKEDIN</small>
+            <strong>Connect with me</strong>
+          </div>
+
+          <span>↗</span>
+        </a>
+
+
+        <a
+          class="contact-social profile-link profile-github"
+          href="#"
+          target="_blank"
+          rel="noopener"
+          hidden
+        >
+          <div class="social-icon">GH</div>
+
+          <div>
+            <small>GITHUB</small>
+            <strong>Explore my work</strong>
+          </div>
+
+          <span>↗</span>
+        </a>
+
+
+        <a
+          class="contact-social"
+          href="Haseeb_Ahmad_CV.pdf"
+          download
+        >
+          <div class="social-icon">CV</div>
+
+          <div>
+            <small>RÉSUMÉ</small>
+            <strong>Download my CV</strong>
+          </div>
+
+          <span>↓</span>
+        </a>
+
+      </div>
+
+      <div class="contact-availability">
+        <span></span>
+
+        <div>
+          <small>STATUS</small>
+          <strong>Open to professional opportunities</strong>
         </div>
       </div>
-    </section>
+
+    </div>
+
+  </div>
+</section>
   </main>
 
   <footer class="site-footer">
