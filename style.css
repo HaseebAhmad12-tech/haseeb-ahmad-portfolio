@@ -1637,3 +1637,30 @@ body{
   .skills-section-kicker{margin-bottom:17px}
   .skill-tile{width:166px}
 }
+/* =====================================================
+   SCROLL WHITE FLASH FIX
+   ===================================================== */
+
+html{
+  background:#020611 !important;
+  background-color:#020611 !important;
+}
+
+body{
+  min-height:100vh;
+
+  background-color:#020611 !important;
+
+  /* Prevent browser repaint / white flash while dragging scrollbar */
+  background-attachment:scroll !important;
+}
+
+main{
+  background-color:transparent;
+}
+
+/* Browser overscroll / empty canvas fallback */
+html,
+body{
+  overscroll-behavior:none;
+}
