@@ -993,7 +993,7 @@ body{
   .projects .project-card:nth-child(5){z-index:5;margin-bottom:0}
 }
 
-/* Keep the normal card flow on phones for easier reading. */
+/* Keep the normal card flow on phones for easier reading.. */
 @media(max-width:900px){
   .projects .project-card{
     position:relative;
