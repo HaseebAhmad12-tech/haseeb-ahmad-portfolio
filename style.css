@@ -1447,3 +1447,212 @@ body{
   }
 
 }
+/*Glow Site*/
+/* =====================================================
+   STRONGER GLOBAL AMBIENT GLOW
+   ===================================================== */
+
+body{
+  position:relative;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(0,210,255,.18), transparent 28%),
+    radial-gradient(circle at 90% 18%, rgba(104,78,255,.18), transparent 30%),
+    radial-gradient(circle at 15% 48%, rgba(0,190,255,.10), transparent 26%),
+    radial-gradient(circle at 88% 58%, rgba(143,76,255,.12), transparent 28%),
+    radial-gradient(circle at 15% 82%, rgba(0,210,255,.10), transparent 25%),
+    radial-gradient(circle at 85% 92%, rgba(88,110,255,.12), transparent 28%),
+    linear-gradient(
+      180deg,
+      #030712 0%,
+      #07101d 28%,
+      #050b17 55%,
+      #08101d 78%,
+      #030712 100%
+    ) !important;
+}
+
+
+/* Strong cyan glow on left side */
+body::before{
+  content:"";
+  position:fixed;
+
+  width:720px;
+  height:720px;
+
+  left:-340px;
+  top:30%;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(48,220,255,.20) 0%,
+      rgba(48,220,255,.08) 32%,
+      transparent 68%
+    );
+
+  filter:blur(35px);
+
+  pointer-events:none;
+  z-index:-1;
+
+  animation:ambientGlowLeft 11s ease-in-out infinite alternate;
+}
+
+
+/* Purple / blue glow on right */
+body::after{
+  content:"";
+  position:fixed;
+
+  width:780px;
+  height:780px;
+
+  right:-380px;
+  top:13%;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(108,91,255,.20) 0%,
+      rgba(155,86,255,.09) 35%,
+      transparent 70%
+    );
+
+  filter:blur(40px);
+
+  pointer-events:none;
+  z-index:-1;
+
+  animation:ambientGlowRight 13s ease-in-out infinite alternate;
+}
+
+
+/* Every section gets a softer internal glow */
+.section{
+  position:relative;
+  background:
+    radial-gradient(
+      circle at 8% 45%,
+      rgba(68,215,255,.035),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 92% 55%,
+      rgba(126,95,255,.045),
+      transparent 32%
+    );
+}
+
+
+/* Hero should stay strongest */
+.hero{
+  background:
+    radial-gradient(
+      circle at 18% 30%,
+      rgba(41,214,255,.12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 82% 30%,
+      rgba(112,91,255,.15),
+      transparent 33%
+    );
+}
+
+
+/* Certification area slightly purple */
+.certifications{
+  background:
+    radial-gradient(
+      circle at 85% 40%,
+      rgba(137,80,255,.10),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 10% 70%,
+      rgba(57,218,255,.07),
+      transparent 30%
+    );
+}
+
+
+/* Blog area slightly cyan */
+.writing{
+  background:
+    radial-gradient(
+      circle at 10% 35%,
+      rgba(41,210,255,.09),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 88% 70%,
+      rgba(105,89,255,.07),
+      transparent 30%
+    );
+}
+
+
+/* Contact area stronger finishing glow */
+.contact{
+  background:
+    radial-gradient(
+      circle at 20% 50%,
+      rgba(40,215,255,.10),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 85% 45%,
+      rgba(142,80,255,.10),
+      transparent 34%
+    );
+}
+
+
+/* Subtle animations */
+@keyframes ambientGlowLeft{
+
+  0%{
+    transform:
+      translateY(-40px)
+      scale(1);
+  }
+
+  100%{
+    transform:
+      translateY(90px)
+      scale(1.12);
+  }
+
+}
+
+@keyframes ambientGlowRight{
+
+  0%{
+    transform:
+      translateY(20px)
+      scale(1);
+  }
+
+  100%{
+    transform:
+      translateY(120px)
+      scale(1.10);
+  }
+
+}
+
+
+/* Mobile: keep it lighter */
+@media(max-width:620px){
+
+  body::before,
+  body::after{
+    opacity:.65;
+  }
+
+}
