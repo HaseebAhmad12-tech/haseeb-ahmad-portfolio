@@ -1372,3 +1372,78 @@ body{
 @media(prefers-reduced-motion:reduce){
   .skills-track{animation:none;transform:none}
 }
+/* =========================================
+   PROJECT IMPACT TEXT READABILITY FIX
+   ========================================= */
+
+.project-impact{
+  gap:12px;
+  margin-top:0;
+}
+
+.project-impact>div{
+  min-height:100px;
+  padding:16px 17px;
+
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.035),
+      rgba(255,255,255,.018)
+    );
+}
+
+.project-impact small{
+  margin-bottom:8px;
+
+  color:var(--cyan);
+
+  font-size:10px;
+  font-weight:800;
+
+  letter-spacing:.10em;
+}
+
+.project-impact span{
+  color:#d0d9e6;
+
+  font-size:13px;
+  font-weight:450;
+
+  line-height:1.65;
+}
+
+
+/* Tablet */
+@media(max-width:900px){
+
+  .project-impact span{
+    font-size:12.5px;
+  }
+
+}
+
+
+/* Mobile */
+@media(max-width:620px){
+
+  .project-impact{
+    gap:10px;
+  }
+
+  .project-impact>div{
+    padding:14px 15px;
+  }
+
+  .project-impact small{
+    font-size:9.5px;
+  }
+
+  .project-impact span{
+    font-size:12.5px;
+  }
+
+}
