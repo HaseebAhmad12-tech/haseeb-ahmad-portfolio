@@ -399,3 +399,39 @@ if (contactForm) {
     }
   });
 }
+/* =========================================
+   BACK TO TOP
+   ========================================= */
+
+const backToTop = document.getElementById('backToTop');
+
+if (backToTop) {
+
+  const toggleBackToTop = () => {
+
+    backToTop.classList.toggle(
+      'show',
+      window.scrollY > 500
+    );
+
+  };
+
+  window.addEventListener(
+    'scroll',
+    toggleBackToTop,
+    { passive: true }
+  );
+
+  toggleBackToTop();
+
+  backToTop.addEventListener('click', () => {
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+
+  });
+
+}
