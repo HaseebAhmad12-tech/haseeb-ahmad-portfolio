@@ -1992,7 +1992,9 @@ main{background-color:transparent}
 }
 /* Mobile only horizontal overflow fix */
 @media (max-width: 768px) {
-  body {
-    overflow-x: hidden;
+  section,
+  .container,
+  .wrapper {
+    max-width: 100%;
   }
 }
