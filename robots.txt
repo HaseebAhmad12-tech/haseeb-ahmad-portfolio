@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://haseebahmad365.netlify.app/sitemap.xml
