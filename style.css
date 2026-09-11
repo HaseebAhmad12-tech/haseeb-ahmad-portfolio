@@ -1994,7 +1994,7 @@ main{background-color:transparent}
   .project-impact>div{min-height:auto !important}
 }
 
-/* Mobile: clip oversized decorative section glows at their own boundary.
+/* Mobile: clip oversized decorative section glows at their own boundary..
    This removes horizontal page drift without changing vertical scrolling. */
 @media(max-width:900px){
   .section{overflow-x:clip}
