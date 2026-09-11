@@ -1990,10 +1990,9 @@ main{background-color:transparent}
   .projects .project-card{padding:22px 18px !important}
   .project-impact>div{min-height:auto !important}
 }
-/* Mobile horizontal overflow fix */
-html,
-body {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
+/* Mobile only horizontal overflow fix */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
 }
